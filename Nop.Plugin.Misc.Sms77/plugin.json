@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Misc",
+  "FriendlyName": "Sms77",
+  "SystemName": "Misc.Sms77",
+  "Version": "0.1",
+  "SupportedVersions": [ "4.30" ],
+  "Author": "sms77 e.K.",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Misc.Sms77.dll",
+  "Description": "This plugin allows to integrate with Sms77.io service"
+}
