@@ -53,7 +53,7 @@ namespace Nop.Plugin.Misc.Sms77.Controllers {
             var model = new SmsModel {Sent = _smsService.GetAll()};
 
             if (string.IsNullOrEmpty(GetPluginSettings().ApiKey)) {
-                return Redirect("/Admin/Sms77/Configure");
+                return Redirect("/Admin/Sms77/Configure?autofocus=ApiKey");
             }
 
             model.ActiveStoreScopeConfiguration = StoreId;
