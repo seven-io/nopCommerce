@@ -50,13 +50,18 @@ namespace Nop.Plugin.Misc.Sms77.Controllers {
         [AuthorizeAdmin]
         [Area(AreaNames.Admin)]
         public IActionResult Sms() {
-            var model = new SmsModel {Sent = _smsService.GetAll()};
+            var settings = GetPluginSettings();
 
-            if (string.IsNullOrEmpty(GetPluginSettings().ApiKey)) {
+            if (string.IsNullOrEmpty(settings.ApiKey)) {
                 return Redirect("/Admin/Sms77/Configure?autofocus=ApiKey");
             }
 
-            model.ActiveStoreScopeConfiguration = StoreId;
+            var model = new SmsModel {
+                Sent = _smsService.GetAll(),
+                ActiveStoreScopeConfiguration = StoreId,
+                From = settings.From,
+                Text = LocalizationService.GetResource("Plugins.Misc.Sms77.Message.Text.Placeholder")
+            };
 
             foreach (var role in _customerService.GetAllCustomerRoles(true)) {
                 model.AvailableCustomerRoles.Add(new SelectListItem(role.Name, role.Id.ToString()));
@@ -67,14 +72,12 @@ namespace Nop.Plugin.Misc.Sms77.Controllers {
 
         [AuthorizeAdmin, Area(AreaNames.Admin), HttpPost, ActionName("Sms"), FormValueRequired("save")]
         public async Task<IActionResult> Sms(SmsModel model) {
-            if (!ModelState.IsValid || 0 == model.SelectedCustomerRoleIds.Count) {
+            if (!ModelState.IsValid) {
                 return Sms();
             }
 
             var smsParamsList = new List<SmsParams>();
             var personalizer = new Personalizer(model.Text);
-
-            if (!personalizer.HasPlaceholders) { }
 
             foreach (var customer in
                 _customerService.GetAllCustomers(customerRoleIds: model.SelectedCustomerRoleIds.ToArray())) {
@@ -107,6 +110,7 @@ namespace Nop.Plugin.Misc.Sms77.Controllers {
 
             foreach (var smsParams in smsParamsList) {
                 smsParams.Json = true;
+                smsParams.From = model.From;
 
                 var obj = await client.Sms(smsParams);
                 var json = JsonConvert.SerializeObject(obj, Formatting.None);

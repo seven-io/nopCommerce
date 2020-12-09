@@ -18,11 +18,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Remove="logo.png"/>
-        <None Remove="plugin.json"/>
-        <None Remove="Views\BulkSms.cshtml"/>
-        <None Remove="Views\Configure.cshtml"/>
-        <None Remove="Views\_ViewImports.cshtml"/>
+        <None Remove="logo.png" />
+        <None Remove="plugin.json" />
+        <None Remove="Views\BulkSms.cshtml" />
+        <None Remove="Views\Configure.cshtml" />
+        <None Remove="Views\_ViewImports.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
@@ -44,19 +44,19 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj"/>
-        <ProjectReference Include="..\..\Presentation\Nop.Web\Nop.Web.csproj"/>
-        <ClearPluginAssemblies Include="$(MSBuildProjectDirectory)\..\..\Build\ClearPluginAssemblies.proj"/>
+        <ProjectReference Include="..\..\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj" />
+        <ProjectReference Include="..\..\Presentation\Nop.Web\Nop.Web.csproj" />
+        <ClearPluginAssemblies Include="$(MSBuildProjectDirectory)\..\..\Build\ClearPluginAssemblies.proj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="sms77-api" Version="1.0.0"/>
+        <PackageReference Include="sms77-api" Version="1.0.0" />
     </ItemGroup>
 
     <!-- This target execute after "Build" target -->
     <Target Name="NopTarget" AfterTargets="Build">
         <!-- Delete unnecessary libraries from plugins path -->
-        <MSBuild Projects="@(ClearPluginAssemblies)" Properties="PluginPath=$(MSBuildProjectDirectory)\$(OutDir)" Targets="NopClear"/>
+        <MSBuild Projects="@(ClearPluginAssemblies)" Properties="PluginPath=$(MSBuildProjectDirectory)\$(OutDir)" Targets="NopClear" />
     </Target>
 
 </Project>

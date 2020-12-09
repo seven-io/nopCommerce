@@ -15,8 +15,8 @@ namespace Nop.Plugin.Misc.Sms77.Data {
         /// <param name="table">Create table expression builder</param>
         public override void MapEntity(CreateTableExpressionBuilder table) {
             table
-                .WithColumn(nameof(SmsRecord.Config)).AsString().NotNullable()
-                .WithColumn(nameof(SmsRecord.Response)).AsString().Nullable();
+                .WithColumn(nameof(SmsRecord.Config)).AsString(int.MaxValue).NotNullable()
+                .WithColumn(nameof(SmsRecord.Response)).AsString(int.MaxValue).Nullable();
         }
 
         #endregion

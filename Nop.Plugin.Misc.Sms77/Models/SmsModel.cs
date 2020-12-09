@@ -40,7 +40,7 @@ namespace Nop.Plugin.Misc.Sms77.Models {
 
         public IList<SelectListItem> AvailableCustomerRoles { get; set; }
 
-        [NopResourceDisplayName("Plugins.Misc.Sms77.Message.CustomerRoles")]
+        [NopResourceDisplayName("Admin.Customers.Customers.Fields.CustomerRoles")]
         public IList<int> SelectedCustomerRoleIds { get; set; }
         
         #endregion

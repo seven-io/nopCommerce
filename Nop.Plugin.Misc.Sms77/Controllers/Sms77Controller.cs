@@ -27,28 +27,18 @@ namespace Nop.Plugin.Misc.Sms77.Controllers {
         [AuthorizeAdmin]
         [Area(AreaNames.Admin)]
         public IActionResult Configure() {
-            var model = new ConfigurationModel();
-            
-            var apiKey = GetPluginSettings().ApiKey;
-            if (!string.IsNullOrEmpty(apiKey)) {
-                model.ActiveStoreScopeConfiguration = StoreId;
-                model.ApiKey = apiKey;
-            }
-
-            return ToView("Configure", model);
+            return ToView("Configure", GetPluginSettings());
         }
 
         [AuthorizeAdmin, Area(AreaNames.Admin), HttpPost, ActionName("Configure")]
         [FormValueRequired("save")]
-        public IActionResult Configure(ConfigurationModel model) {
+        public IActionResult Configure(Sms77Settings sms77Settings) {
             if (!ModelState.IsValid) {
                 return Configure();
             }
 
-            var sms77Settings = GetPluginSettings();
-
-            sms77Settings.ApiKey = model.ApiKey;
             SettingService.SaveSetting(sms77Settings, settings => settings.ApiKey, clearCache: false);
+            SettingService.SaveSetting(sms77Settings, settings => settings.From, clearCache: false);
             SettingService.ClearCache();
 
             SuccessNotification("Admin.Plugins.Saved");

@@ -44,7 +44,7 @@ namespace Nop.Plugin.Misc.Sms77.Controllers {
             return SettingService.LoadSetting<Sms77Settings>(StoreId);
         }
 
-        protected IActionResult ToView(string templateName, BaseNopModel model) {
+        protected IActionResult ToView(string templateName, object model) {
             return View($"~/Plugins/Misc.Sms77/Views/{templateName}.cshtml", model);
         }
 
