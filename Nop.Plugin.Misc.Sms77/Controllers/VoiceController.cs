@@ -1,8 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
+using Nop.Plugin.Misc.Sms77.Domain;
 using Nop.Plugin.Misc.Sms77.Models;
 using Nop.Plugin.Misc.Sms77.Services;
+using Nop.Plugin.Misc.Sms77.Services.Voice;
 using Nop.Services.Configuration;
 using Nop.Services.Customers;
 using Nop.Services.Localization;
@@ -11,7 +13,7 @@ using Sms77.Api.Library;
 
 namespace Nop.Plugin.Misc.Sms77.Controllers {
     [AutoValidateAntiforgeryToken]
-    public class VoiceController : AbstractBulkController<VoiceModel> {
+    public class VoiceController : AbstractBulkController<VoiceModel,VoiceRecord> {
         #region Ctor
 
         public VoiceController(
@@ -20,14 +22,14 @@ namespace Nop.Plugin.Misc.Sms77.Controllers {
             INotificationService notificationService,
             ILocalizationService localizationService,
             ICustomerService customerService,
-            ISmsService smsService
+            IVoiceService voiceService
         ) : base(
             storeContext,
             settingService,
             notificationService,
             localizationService,
             customerService,
-            smsService,
+            voiceService,
             "Voice") { }
 
         #endregion
@@ -37,7 +39,15 @@ namespace Nop.Plugin.Misc.Sms77.Controllers {
         public override async Task<IActionResult> Bulk(VoiceModel model) {
             return await Submit<VoiceParams>(
                 model,
-                (client, voiceParams) => client.Voice(voiceParams, true),
+                async (client, paras, record) => {
+                    Voice res = await client.Voice(paras, true);
+                    
+                    record.Code = res.Code;
+                    record.Cost = res.Cost;
+                    record.Sms77Id = res.Id;
+                    
+                    return (paras, record);
+                },
                 false);
         }
 

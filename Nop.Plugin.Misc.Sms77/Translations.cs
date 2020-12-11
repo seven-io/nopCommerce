@@ -10,6 +10,9 @@ namespace Nop.Plugin.Misc.Sms77 {
             ["Plugins.Misc.Sms77.Bulk.Sent"] = "Bulk Message(s) successfully dispatched!",
             ["Plugins.Misc.Sms77.Bulk.Sms"] = "Bulk SMS",
             ["Plugins.Misc.Sms77.Bulk.Voice"] = "Bulk Voice",
+            ["Plugins.Misc.Sms77.Bulk.Voice.Code"] = "Code",
+            ["Plugins.Misc.Sms77.Bulk.Voice.Cost"] = "Cost",
+            ["Plugins.Misc.Sms77.Bulk.Voice.Sms77Id"] = "Sms77-ID",
             
             ["Plugins.Misc.Sms77.General"] = "General",
             ["Plugins.Misc.Sms77.General.ApiKey"] = "API Key",

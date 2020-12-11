@@ -9,3 +9,23 @@
 {
     @T("Plugins.Misc.Sms77.Bulk.Voice").Text
 }
+
+@section thead
+{
+    <th>@T("Plugins.Misc.Sms77.Bulk.Code")</th>
+    <th>@T("Plugins.Misc.Sms77.Bulk.Cost")</th>
+    <th>@T("Plugins.Misc.Sms77.Bulk.Sms77Id")</th>
+}
+
+@section tbody
+{
+    @foreach (var sent in Model.Sent) {
+        <tr>
+            <td>@sent.Id</td>
+            <td>@sent.Config</td>
+            <td>@sent.Code</td>
+            <td>@sent.Cost</td>
+            <td>@sent.Sms77Id</td>
+        </tr>
+    }
+}
