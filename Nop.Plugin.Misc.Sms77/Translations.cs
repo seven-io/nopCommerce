@@ -16,6 +16,7 @@ namespace Nop.Plugin.Misc.Sms77 {
             ["Plugins.Misc.Sms77.Bulk.Voice.Code"] = "Code",
             ["Plugins.Misc.Sms77.Bulk.Voice.Cost"] = "Cost",
             ["Plugins.Misc.Sms77.Bulk.Voice.Sms77Id"] = "Sms77-ID",
+            ["Plugins.Misc.Sms77.Bulk.Voice.Xml"] = "XML",
             
             ["Plugins.Misc.Sms77.General"] = "General",
             ["Plugins.Misc.Sms77.General.ApiKey"] = "API Key",

@@ -5,6 +5,20 @@
     ViewBag.PageTitle = T("Plugins.Misc.Sms77.Bulk.Voice").Text;
 }
 
+@section form
+{
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="Xml"/>
+        </div>
+
+        <div class="col-md-9">
+            <input type="checkbox" id="Xml" value="true" name="Xml" @(Model.Xml ? " checked=checked" : null)/>
+        </div>
+    </div>
+
+}
+
 @section heading
 {
     @T("Plugins.Misc.Sms77.Bulk.Voice").Text

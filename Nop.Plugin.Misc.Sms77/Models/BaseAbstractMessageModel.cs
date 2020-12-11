@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Plugin.Misc.Sms77.Domain;
@@ -14,8 +13,6 @@ namespace Nop.Plugin.Misc.Sms77.Models {
         protected BaseAbstractMessageModel(string controllerName) {
             ControllerName = controllerName;
 
-            //Sent = new List<AbstractMessageRecord>();
-            
             var customerModel = new CustomerModel();
             SelectedCustomerRoleIds = customerModel.SelectedCustomerRoleIds;
             AvailableCustomerRoles = customerModel.AvailableCustomerRoles;
@@ -25,8 +22,6 @@ namespace Nop.Plugin.Misc.Sms77.Models {
         
         #region Properties
 
-        
-        
         public string ControllerName { get; set; }
 
         [NopResourceDisplayName("Plugins.Misc.Sms77.Message.To")]

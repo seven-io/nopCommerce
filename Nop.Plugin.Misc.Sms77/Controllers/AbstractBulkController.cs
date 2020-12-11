@@ -16,14 +16,17 @@ using Nop.Services.Messages;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc.Filters;
+using Nop.Web.Framework.Mvc.ModelBinding;
 using Sms77.Api;
 using Sms77.Api.Library;
+using StackExchange.Profiling.Internal;
 
 namespace Nop.Plugin.Misc.Sms77.Controllers {
     [Area(AreaNames.Admin)]
     [AuthorizeAdmin]
     [AutoValidateAntiforgeryToken]
-    public abstract class AbstractBulkController<T, TR> : AbstractBaseController where T : AbstractMessageModel<TR>, new()
+    public abstract class AbstractBulkController<T, TR> : AbstractBaseController
+        where T : AbstractMessageModel<TR>, new()
         where TR : AbstractMessageRecord, new() {
         #region Ctor
 
@@ -86,6 +89,8 @@ namespace Nop.Plugin.Misc.Sms77.Controllers {
             bool multipleRecipients
         ) where TP : new() {
             if (!ModelState.IsValid) {
+                Console.WriteLine($"ModelStateValidationFail: {ModelState.SerializeErrors().ToJson()}");
+
                 return Bulk();
             }
 
@@ -128,7 +133,10 @@ namespace Nop.Plugin.Misc.Sms77.Controllers {
                     new TR());
 
                 record.Config = JsonConvert.SerializeObject(finalParas, Formatting.None,
-                    new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
+                    new JsonSerializerSettings {
+                        NullValueHandling = NullValueHandling.Ignore,
+                        DefaultValueHandling = DefaultValueHandling.Ignore
+                    });
 
                 _messageService.Log(record);
             }

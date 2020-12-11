@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
 using Nop.Plugin.Misc.Sms77.Domain;
 using Nop.Plugin.Misc.Sms77.Models;
-using Nop.Plugin.Misc.Sms77.Services;
 using Nop.Plugin.Misc.Sms77.Services.Voice;
 using Nop.Services.Configuration;
 using Nop.Services.Customers;
@@ -40,6 +39,8 @@ namespace Nop.Plugin.Misc.Sms77.Controllers {
             return await Submit<VoiceParams>(
                 model,
                 async (client, paras, record) => {
+                    paras.Xml = model.Xml;
+                    
                     Voice res = await client.Voice(paras, true);
                     
                     record.Code = res.Code;
