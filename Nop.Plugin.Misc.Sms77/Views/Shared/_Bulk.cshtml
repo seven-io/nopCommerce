@@ -1,8 +1,35 @@
+@using Nop.Plugin.Misc.Sms77
 @model Nop.Plugin.Misc.Sms77.Models.BaseAbstractMessageModel 
 
 @{
     Layout = "_AdminLayout";
 }
+
+<div id="sms77_placeholders" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="// TODO">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+                <h3 class="modal-title">
+                    @T("Plugins.Misc.Sms77.Placeholders")
+                </h3>
+            </div>
+
+            <div class="modal-body">
+                <div class="btn-group-vertical btn-block" role="group" aria-label="@T("Plugins.Misc.Sms77.Placeholders")">
+                    @foreach (var placeholder in Personalizer.Placeholders) {
+                        <button class="btn btn-info" onclick="navigator.clipboard.writeText('{{' + this.textContent.trim() + '}}')">
+                            @placeholder
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <h1 class="text-center">
     @RenderSection("heading", true)
@@ -12,6 +39,10 @@
     <div class="form-group">
         <div class="col-md-3">
             <nop-label asp-for="Text"/>
+
+            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#sms77_placeholders">
+                @T("Plugins.Misc.Sms77.Placeholders")
+            </button>
         </div>
 
         <div class="col-md-9">

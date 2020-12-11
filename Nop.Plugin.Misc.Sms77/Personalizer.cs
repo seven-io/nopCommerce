@@ -42,7 +42,7 @@ namespace Nop.Plugin.Misc.Sms77 {
             "Address.ZipPostalCode"
         };
 
-        private static readonly string[] Placeholders = CustomerPlaceholders.Concat(AddressPlaceholders).ToArray();
+        public static readonly string[] Placeholders = CustomerPlaceholders.Concat(AddressPlaceholders).ToArray();
 
         #endregion
 

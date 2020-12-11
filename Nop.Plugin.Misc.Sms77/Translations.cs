@@ -3,6 +3,9 @@ using System.Collections.Generic;
 namespace Nop.Plugin.Misc.Sms77 {
     public static class Translations {
         public static readonly Dictionary<string, string> English = new Dictionary<string, string> {
+            ["Plugins.Misc.Sms77.Placeholders"] = "Placeholders",
+            ["Plugins.Misc.Sms77.Placeholders.Hint"] = "Copy to clipboard by clicking the button.",
+            ["Plugins.Misc.Sms77.Close"] = "Close",
             ["Plugins.Misc.Sms77.Bulk.Config"] = "Config",
             ["Plugins.Misc.Sms77.Bulk.History"] = "History",
             ["Plugins.Misc.Sms77.Bulk.ID"] = "ID",
