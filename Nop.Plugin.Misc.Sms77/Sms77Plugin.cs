@@ -1,11 +1,9 @@
 ﻿using System.Linq;
-using Microsoft.AspNetCore.Routing;
 using Nop.Core;
 using Nop.Services.Common;
 using Nop.Services.Configuration;
 using Nop.Services.Localization;
 using Nop.Services.Plugins;
-using Nop.Web.Framework;
 using Nop.Web.Framework.Menu;
 
 namespace Nop.Plugin.Misc.Sms77 {
@@ -15,6 +13,7 @@ namespace Nop.Plugin.Misc.Sms77 {
     public class Sms77Plugin : BasePlugin, IMiscPlugin, IAdminMenuPlugin {
         #region Fields
 
+        public const string ConfigurePath = "/Admin/Sms77/Configure";
         private readonly ILocalizationService _localizationService;
         private readonly ISettingService _settingService;
         private readonly IWebHelper _webHelper;
@@ -37,24 +36,28 @@ namespace Nop.Plugin.Misc.Sms77 {
 
         #region Methods
 
-        public void ManageSiteMap(SiteMapNode rootNode) {
-            var pluginNode = rootNode.ChildNodes.FirstOrDefault(x => x.SystemName == "Third party plugins");
-
-            (pluginNode ?? rootNode).ChildNodes.Add(new SiteMapNode {
-                ActionName = "Sms",
-                ControllerName = "Bulk",
-                RouteValues = new RouteValueDictionary {{"area", AreaNames.Admin}},
-                SystemName = "Misc.Sms77",
-                Title = "Sms77 BulkSMS",
+        private void AddSiteMapChildNode(SiteMapNode node, string actionName, string controllerName, string title) {
+            node.ChildNodes.Add(new SiteMapNode {
+                ActionName = actionName,
+                ControllerName = controllerName,
+                SystemName = $"Misc.Sms77.{controllerName}.{actionName}",
+                Title = $"Sms77 {_localizationService.GetResource(title)}",
                 Visible = true,
             });
+        }
+
+        public void ManageSiteMap(SiteMapNode root) {
+            var node = root.ChildNodes.FirstOrDefault(n => n.SystemName == "Third party plugins") ?? root;
+
+            AddSiteMapChildNode(node, "Bulk", "Sms", "Plugins.Misc.Sms77.Bulk.Sms");
+            AddSiteMapChildNode(node, "Bulk", "Voice", "Plugins.Misc.Sms77.Bulk.Voice");
         }
 
         /// <summary>
         /// Gets a configuration page URL
         /// </summary>
         public override string GetConfigurationPageUrl() {
-            return $"{_webHelper.GetStoreLocation()}Admin/Sms77/Configure";
+            return _webHelper.GetStoreLocation().TrimEnd('/') + ConfigurePath;
         }
 
         /// <summary>

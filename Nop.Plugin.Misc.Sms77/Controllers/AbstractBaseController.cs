@@ -4,12 +4,10 @@ using Nop.Services.Configuration;
 using Nop.Services.Localization;
 using Nop.Services.Messages;
 using Nop.Web.Framework.Controllers;
-using Nop.Web.Framework.Models;
-using Renci.SshNet.Messages.Authentication;
 
 namespace Nop.Plugin.Misc.Sms77.Controllers {
     [AutoValidateAntiforgeryToken]
-    public abstract class AbstractController : BasePluginController {
+    public abstract class AbstractBaseController : BasePluginController {
         #region Fields
 
         protected readonly ILocalizationService LocalizationService;
@@ -22,7 +20,7 @@ namespace Nop.Plugin.Misc.Sms77.Controllers {
 
         #region Ctor
 
-        protected AbstractController(
+        protected AbstractBaseController(
             IStoreContext storeContext,
             ISettingService settingService,
             INotificationService notificationService,

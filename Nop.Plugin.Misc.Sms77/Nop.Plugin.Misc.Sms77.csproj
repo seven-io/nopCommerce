@@ -20,7 +20,9 @@
     <ItemGroup>
         <None Remove="logo.png" />
         <None Remove="plugin.json" />
-        <None Remove="Views\BulkSms.cshtml" />
+        <None Remove="Views\Shared\_Bulk.cshtml" />
+        <None Remove="Views\Bulk\Sms.cshtml" />
+        <None Remove="Views\Bulk\Voice.cshtml" />
         <None Remove="Views\Configure.cshtml" />
         <None Remove="Views\_ViewImports.cshtml" />
     </ItemGroup>
@@ -32,11 +34,17 @@
         <Content Include="plugin.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
-        <Content Include="Views\BulkSms.cshtml">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <Content Include="Views\Bulk\Sms.cshtml">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Views\Bulk\Voice.cshtml">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
         <Content Include="Views\Configure.cshtml">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Views\Shared\_Bulk.cshtml">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
         <Content Include="Views\_ViewImports.cshtml">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

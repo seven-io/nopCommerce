@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -17,23 +18,26 @@ using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc.Filters;
 using Sms77.Api;
 using Sms77.Api.Library;
-using StackExchange.Profiling.Internal;
 
 namespace Nop.Plugin.Misc.Sms77.Controllers {
+    [Area(AreaNames.Admin)]
+    [AuthorizeAdmin]
     [AutoValidateAntiforgeryToken]
-    public class BulkController : AbstractController {
+    public abstract class AbstractBulkController<T> : AbstractBaseController where T : AbstractMessageModel {
         #region Ctor
 
-        public BulkController(
+        protected AbstractBulkController(
             IStoreContext storeContext,
             ISettingService settingService,
             INotificationService notificationService,
             ILocalizationService localizationService,
             ICustomerService customerService,
-            ISmsService smsService
+            ISmsService smsService,
+            string templateName
         ) : base(storeContext, settingService, notificationService, localizationService) {
             _customerService = customerService;
             _smsService = smsService;
+            _templateName = templateName;
         }
 
         #endregion
@@ -42,24 +46,23 @@ namespace Nop.Plugin.Misc.Sms77.Controllers {
 
         private readonly ICustomerService _customerService;
         private readonly ISmsService _smsService;
+        private readonly string _templateName;
 
         #endregion
 
         #region Methods
 
-        [AuthorizeAdmin]
-        [Area(AreaNames.Admin)]
-        public IActionResult Sms() {
+        public IActionResult Bulk() {
             var settings = GetPluginSettings();
 
             if (string.IsNullOrEmpty(settings.ApiKey)) {
-                return Redirect("/Admin/Sms77/Configure?autofocus=ApiKey");
+                return Redirect($"{Sms77Plugin.ConfigurePath}?autofocus=ApiKey");
             }
 
-            var model = new SmsModel {
-                Sent = _smsService.GetAll(),
+            var model = new MessageModel {
                 ActiveStoreScopeConfiguration = StoreId,
                 From = settings.From,
+                Sent = _smsService.GetAll(),
                 Text = LocalizationService.GetResource("Plugins.Misc.Sms77.Message.Text.Placeholder")
             };
 
@@ -67,17 +70,26 @@ namespace Nop.Plugin.Misc.Sms77.Controllers {
                 model.AvailableCustomerRoles.Add(new SelectListItem(role.Name, role.Id.ToString()));
             }
 
-            return ToView("BulkSms", model);
+            return ToView($"Bulk/{_templateName}",
+                JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(model)));
         }
 
-        [AuthorizeAdmin, Area(AreaNames.Admin), HttpPost, ActionName("Sms"), FormValueRequired("save")]
-        public async Task<IActionResult> Sms(SmsModel model) {
+        [HttpPost]
+        [FormValueRequired("save")]
+        [ActionName("Bulk")]
+        public abstract Task<IActionResult> Bulk(T model);
+
+        protected async Task<IActionResult> Submit<TP>(
+            T model,
+            Func<Client, TP, Task<dynamic>> clientMethod,
+            bool multipleRecipients
+        ) where TP : new() {
             if (!ModelState.IsValid) {
-                return Sms();
+                return Bulk();
             }
 
-            var smsParamsList = new List<SmsParams>();
             var personalizer = new Personalizer(model.Text);
+            var methodParamsList = new List<SmsParams>();
 
             foreach (var customer in
                 _customerService.GetAllCustomers(customerRoleIds: model.SelectedCustomerRoleIds.ToArray())) {
@@ -89,36 +101,38 @@ namespace Nop.Plugin.Misc.Sms77.Controllers {
                     model.To += $"{address.PhoneNumber},";
 
                     if (personalizer.HasPlaceholders) {
-                        smsParamsList.Add(new SmsParams {
+                        methodParamsList.Add(new SmsParams {
                             From = model.From,
-                            To = address.PhoneNumber,
-                            Text = personalizer.Transform(customer, address)
+                            Text = personalizer.Transform(customer, address),
+                            To = address.PhoneNumber
                         });
                     }
                 }
             }
 
-            if (model.To.EndsWith(',')) {
-                model.To = model.To.Remove(model.To.Length - 1);
-            }
-
-            if (!personalizer.HasPlaceholders) {
-                smsParamsList.Add(new SmsParams {From = model.From, Text = model.Text, To = model.To});
-            }
+            model.To = model.To.TrimEnd(',');
 
             var client = new Client(GetPluginSettings().ApiKey, "nopCommerce");
 
-            foreach (var smsParams in smsParamsList) {
-                smsParams.Json = true;
-                smsParams.From = model.From;
-
-                var obj = await client.Sms(smsParams);
-                var json = JsonConvert.SerializeObject(obj, Formatting.None);
-
-                _smsService.Log(new SmsRecord {Config = smsParams.ToJson(), Response = json});
+            if (0 == methodParamsList.Count) {
+                methodParamsList.AddRange(
+                    from to in multipleRecipients ? new[] {model.To} : model.To.Split(',')
+                    select new SmsParams {From = model.From, Text = model.Text, To = to});
             }
 
-            return Sms();
+            foreach (var paras in methodParamsList) {
+                var res = await clientMethod(client,
+                    JsonConvert.DeserializeObject<TP>(JsonConvert.SerializeObject(paras)));
+
+                _smsService.Log(new SmsRecord {
+                    Config = JsonConvert.SerializeObject(paras, Formatting.None, new JsonSerializerSettings {
+                        NullValueHandling = NullValueHandling.Ignore
+                    }),
+                    Response = res is string ? res : JsonConvert.SerializeObject(res)
+                });
+            }
+
+            return Bulk();
         }
 
         #endregion

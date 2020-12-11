@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Nop.Data;
 using Nop.Plugin.Misc.Sms77.Domain;
-using Nop.Web.Framework.Models.Extensions;
 
 namespace Nop.Plugin.Misc.Sms77.Services {
     public interface ISmsService {
@@ -28,7 +27,7 @@ namespace Nop.Plugin.Misc.Sms77.Services {
         /// </summary>
         /// <param name="record">The record.</param>
         public virtual void Log(SmsRecord record) {
-            if (record == null) {
+            if (null == record) {
                 throw new ArgumentNullException(nameof(record));
             }
 

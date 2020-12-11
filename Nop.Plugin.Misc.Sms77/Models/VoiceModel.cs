@@ -1,11 +1,11 @@
 ﻿namespace Nop.Plugin.Misc.Sms77.Models {
     /// <summary>
-    /// Represents SMS model
+    /// Represents Voice model
     /// </summary>
-    public class SmsModel : AbstractMessageModel {
+    public class VoiceModel : AbstractMessageModel {
         #region Ctor
 
-        public SmsModel() : base("Sms") { }
+        public VoiceModel() : base("Voice") { }
 
         #endregion
     }

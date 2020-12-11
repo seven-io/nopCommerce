@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
-using Nop.Plugin.Misc.Sms77.Models;
 using Nop.Services.Configuration;
 using Nop.Services.Localization;
 using Nop.Services.Messages;
@@ -10,7 +9,7 @@ using Nop.Web.Framework.Mvc.Filters;
 
 namespace Nop.Plugin.Misc.Sms77.Controllers {
     [AutoValidateAntiforgeryToken]
-    public class Sms77Controller : AbstractController {
+    public class Sms77Controller : AbstractBaseController {
         #region Ctor
 
         public Sms77Controller(

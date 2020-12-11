@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
 
-namespace Nop.Plugin.Misc.Sms77.Services {
+namespace Nop.Plugin.Misc.Sms77 {
     [AutoValidateAntiforgeryToken]
     public class Personalizer {
         #region Ctor
