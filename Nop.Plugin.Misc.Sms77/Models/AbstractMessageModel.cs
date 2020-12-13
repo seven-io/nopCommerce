@@ -3,18 +3,18 @@ using Nop.Plugin.Misc.Sms77.Domain;
 
 namespace Nop.Plugin.Misc.Sms77.Models {
     /// <summary>Represents abstract message model</summary>
-    public abstract class AbstractMessageModel<T> : BaseAbstractMessageModel where T : AbstractMessageRecord {
+    public abstract class AbstractMessageModel<TRecord> : BaseAbstractMessageModel where TRecord : AbstractMessageRecord {
         #region Ctor
 
         protected AbstractMessageModel(string controllerName) : base(controllerName) {
-            Sent = new List<T>();
+            Sent = new List<TRecord>();
         }
 
         #endregion
 
         #region Properties
 
-        public new IList<T> Sent { get; set; }
+        public new IList<TRecord> Sent { get; set; }
 
         #endregion
     }

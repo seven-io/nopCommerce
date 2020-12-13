@@ -1,8 +1,9 @@
+@using Nop.Plugin.Misc.Sms77.Domain
 @model Nop.Plugin.Misc.Sms77.Models.VoiceModel 
 
 @{
     Layout = "~/Plugins/Misc.Sms77/Views/Shared/_Bulk.cshtml";
-    ViewBag.PageTitle = T("Plugins.Misc.Sms77.Bulk.Voice").Text;
+    ViewBag.PageTitle = "Plugins.Misc.Sms77.Bulk.Voice";
 }
 
 @section form
@@ -14,34 +15,18 @@
 
         <div class="col-md-9">
             <input type="checkbox" id="Xml" value="true" name="Xml" @(Model.Xml ? " checked=checked" : null)/>
-            
+
             <span asp-validation-for="Xml"></span>
         </div>
     </div>
 
 }
 
-@section heading
+@section history
 {
-    @T("Plugins.Misc.Sms77.Bulk.Voice").Text
-}
-
-@section thead
-{
-    <th>@T("Plugins.Misc.Sms77.Bulk.Code")</th>
-    <th>@T("Plugins.Misc.Sms77.Bulk.Cost")</th>
-    <th>@T("Plugins.Misc.Sms77.Bulk.Sms77Id")</th>
-}
-
-@section tbody
-{
-    @foreach (var sent in Model.Sent) {
-        <tr>
-            <td>@sent.Id</td>
-            <td>@sent.Config</td>
-            <td>@sent.Code</td>
-            <td>@sent.Cost</td>
-            <td>@sent.Sms77Id</td>
-        </tr>
-    }
+    @await Component.InvokeAsync(typeof(VoiceMessageHistoryViewComponent), new AbstractMessageHistoryViewComponentData<VoiceRecord> {
+        Headers = new List<string> {"Plugins.Misc.Sms77.Bulk.Code", "Plugins.Misc.Sms77.Bulk.Cost", "Plugins.Misc.Sms77.Bulk.Sms77Id"},
+        Messages = Model.Sent,
+        RowHandler = r => new List<object> {r.Code, r.Cost, r.Sms77Id}
+    })
 }

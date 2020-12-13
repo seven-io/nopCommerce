@@ -21,6 +21,7 @@
         <None Remove="logo.png" />
         <None Remove="plugin.json" />
         <None Remove="Views\Shared\_Bulk.cshtml" />
+        <None Remove="Views\Shared\Components\MessageHistory\Default.cshtml" />
         <None Remove="Views\Bulk\Sms.cshtml" />
         <None Remove="Views\Bulk\Voice.cshtml" />
         <None Remove="Views\Configure.cshtml" />
@@ -45,6 +46,9 @@
         </Content>
         <Content Include="Views\Shared\_Bulk.cshtml">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Views\Shared\Components\MessageHistory\Default.cshtml">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
         <Content Include="Views\_ViewImports.cshtml">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

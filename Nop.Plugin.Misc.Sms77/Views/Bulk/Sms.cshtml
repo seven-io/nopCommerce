@@ -1,27 +1,16 @@
+@using Nop.Plugin.Misc.Sms77.Domain
 @model Nop.Plugin.Misc.Sms77.Models.SmsModel 
 
 @{
     Layout = "~/Plugins/Misc.Sms77/Views/Shared/_Bulk.cshtml";
-    ViewBag.PageTitle = T("Plugins.Misc.Sms77.Bulk.Sms").Text;
+    ViewBag.PageTitle = "Plugins.Misc.Sms77.Bulk.Sms";
 }
 
-@section heading
+@section history
 {
-    @T("Plugins.Misc.Sms77.Bulk.Sms").Text
-}
-
-@section thead
-{
-    <th>@T("Plugins.Misc.Sms77.Bulk.Response")</th>
-}
-
-@section tbody
-{
-    @foreach (var sent in Model.Sent) {
-        <tr>
-            <td>@sent.Id</td>
-            <td>@sent.Config</td>
-            <td>@sent.Response</td>
-        </tr>
-    }
+    @await Component.InvokeAsync(typeof(SmsMessageHistoryViewComponent), new AbstractMessageHistoryViewComponentData<SmsRecord> {
+        Headers = new List<string> {"Plugins.Misc.Sms77.Bulk.Response"},
+        Messages = Model.Sent,
+        RowHandler = r => new List<object> {r.Response}
+    })
 }

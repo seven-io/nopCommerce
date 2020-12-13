@@ -3,44 +3,24 @@
 
 @{
     Layout = "_AdminLayout";
+    ViewBag.PageTitle = T(ViewBag.PageTitle).Text;
 }
 
-<div id="sms77_placeholders" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="// TODO">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-
-                <h3 class="modal-title">
-                    @T("Plugins.Misc.Sms77.Placeholders")
-                </h3>
-            </div>
-
-            <div class="modal-body">
-                <div class="btn-group-vertical btn-block" role="group" aria-label="@T("Plugins.Misc.Sms77.Placeholders")">
-                    @foreach (var placeholder in Personalizer.Placeholders) {
-                        <button class="btn btn-info" onclick="navigator.clipboard.writeText('{{' + this.textContent.trim() + '}}')">
-                            @placeholder
-                        </button>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <h1 class="text-center">
-    @RenderSection("heading", true)
+    @ViewBag.PageTitle
 </h1>
 
 <form asp-controller="@Model.ControllerName" asp-action="Bulk" method="post" class="form-horizontal">
     <div class="form-group">
-        <div class="col-md-3">
+        <div class="col-md-3" style="display: flex; flex-direction: column; align-items: flex-end;">
             <nop-label asp-for="Text"/>
 
-            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#sms77_placeholders">
+            <button
+                class="btn btn-sm btn-primary"
+                data-target="#sms77_placeholders"
+                data-toggle="modal"
+                id="sms77_toggle_placeholders"
+                type="button">
                 @T("Plugins.Misc.Sms77.Placeholders")
             </button>
         </div>
@@ -90,23 +70,38 @@
     </div>
 </form>
 
-<table class="table table-bordered">
-    <caption>
-        <h2>@T("Plugins.Misc.Sms77.Bulk.History")</h2>
-    </caption>
+@RenderSection("history")
 
-    <thead>
-    <tr>
-        <th>@T("Plugins.Misc.Sms77.Bulk.ID")</th>
-        <th>@T("Plugins.Misc.Sms77.Bulk.Config")</th>
-        @RenderSection("thead", true)
-    </tr>
-    </thead>
+<div id="sms77_placeholders" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="sms77_toggle_placeholders">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
 
-    <tbody>
-    @RenderSection("tbody", true)
-    </tbody>
-</table>
+                <h3 class="modal-title">
+                    @T("Plugins.Misc.Sms77.Placeholders")
+                </h3>
+            </div>
+
+            <div class="modal-body">
+                <div
+                    aria-label="@T("Plugins.Misc.Sms77.Placeholders")"
+                    class="btn-group-vertical btn-block"
+                    role="group">
+                    @foreach (var placeholder in Personalizer.Placeholders) {
+                        <button
+                            class="btn btn-info"
+                            onclick="navigator.clipboard.writeText('{{' + this.textContent.trim() + '}}')">
+                            @placeholder
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
 $(() => {

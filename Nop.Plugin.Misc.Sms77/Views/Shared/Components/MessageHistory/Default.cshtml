@@ -1,0 +1,29 @@
+@using Microsoft.VisualBasic
+
+<table class="table table-bordered">
+    <caption>
+        <h2>@T("Plugins.Misc.Sms77.Bulk.History")</h2>
+    </caption>
+
+    <thead>
+    <tr>
+        <th>@T("Plugins.Misc.Sms77.Bulk.ID")</th>
+        <th>@T("Plugins.Misc.Sms77.Bulk.Config")</th>
+        @foreach (var header in Model.Headers) {
+            <th>@T(header)</th>
+        }
+    </tr>
+    </thead>
+
+    <tbody>
+    @foreach (var row in Model.Messages) {
+        <tr>
+            <td>@row.Id</td>
+            <td>@row.Config</td>
+            @foreach (var column in Model.RowHandler(row)) {
+                <td>@column</td>
+            }
+        </tr>
+    }
+    </tbody>
+</table>
