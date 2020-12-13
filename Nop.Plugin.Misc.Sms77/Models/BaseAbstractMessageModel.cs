@@ -25,7 +25,7 @@ namespace Nop.Plugin.Misc.Sms77.Models {
         public string ControllerName { get; set; }
 
         [NopResourceDisplayName("Plugins.Misc.Sms77.Message.To")]
-        public string To { get; set; }
+        public List<string> To { get; set; } = new List<string>();
 
         [NopResourceDisplayName("Plugins.Misc.Sms77.Message.Text")]
         public string Text { get; set; }

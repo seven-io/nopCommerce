@@ -104,7 +104,7 @@ namespace Nop.Plugin.Misc.Sms77.Controllers {
                 if (addressId.HasValue) {
                     var address = _customerService.GetCustomerAddress(customer.Id, addressId.Value);
 
-                    model.To += $"{address.PhoneNumber},";
+                    model.To.Add(address.PhoneNumber);
 
                     if (personalizer.HasPlaceholders) {
                         methodParamsList.Add(new SmsParams {
@@ -116,13 +116,12 @@ namespace Nop.Plugin.Misc.Sms77.Controllers {
                 }
             }
 
-            model.To = model.To.TrimEnd(',');
-
             var client = new Client(GetPluginSettings().ApiKey, "nopCommerce");
 
             if (0 == methodParamsList.Count) {
+                var arrayTo = model.To.ToArray();
                 methodParamsList.AddRange(
-                    from to in multipleRecipients ? new[] {model.To} : model.To.Split(',')
+                    from to in multipleRecipients ? new[]{string.Join(",", arrayTo)} : arrayTo
                     select new SmsParams {From = model.From, Text = model.Text, To = to});
             }
 

@@ -52,8 +52,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj" />
-        <ProjectReference Include="..\..\Presentation\Nop.Web\Nop.Web.csproj" />
+        <ProjectReference Include="..\..\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj" Watch="false" />
+        <ProjectReference Include="..\..\Presentation\Nop.Web\Nop.Web.csproj" Watch="false" />
         <ClearPluginAssemblies Include="$(MSBuildProjectDirectory)\..\..\Build\ClearPluginAssemblies.proj" />
     </ItemGroup>
 
@@ -67,4 +67,8 @@
         <MSBuild Projects="@(ClearPluginAssemblies)" Properties="PluginPath=$(MSBuildProjectDirectory)\$(OutDir)" Targets="NopClear" />
     </Target>
 
+    <ItemGroup>
+        <!-- include Nop.Plugin.Misc.Sms77 and exclude default watchers -->
+        <Watch Include="**\*" Exclude="obj\**\*" />
+    </ItemGroup>
 </Project>

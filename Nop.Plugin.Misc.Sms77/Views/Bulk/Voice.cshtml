@@ -14,6 +14,8 @@
 
         <div class="col-md-9">
             <input type="checkbox" id="Xml" value="true" name="Xml" @(Model.Xml ? " checked=checked" : null)/>
+            
+            <span asp-validation-for="Xml"></span>
         </div>
     </div>
 
