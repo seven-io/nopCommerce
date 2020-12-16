@@ -6,11 +6,156 @@
     ViewBag.PageTitle = "Plugins.Misc.Sms77.Bulk.Sms";
 }
 
+@section form
+{
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="Delay"/>
+        </div>
+
+        <div class="col-md-9">
+            <nop-editor asp-for="Delay"/>
+
+            <span asp-validation-for="Delay"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="ForeignId"/>
+        </div>
+
+        <div class="col-md-9">
+            <nop-editor asp-for="ForeignId"/>
+
+            <span asp-validation-for="ForeignId"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="Label"/>
+        </div>
+
+        <div class="col-md-9">
+            <nop-editor asp-for="Label"/>
+
+            <span asp-validation-for="Label"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="Udh"/>
+        </div>
+
+        <div class="col-md-9">
+            <nop-editor asp-for="Udh"/>
+
+            <span asp-validation-for="Udh"></span>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="Ttl"/>
+        </div>
+
+        <div class="col-md-9">
+            <input id="Ttl" type="number" class="form-control" name="Ttl" min="1" value="@Model.Ttl"/>
+
+            <span asp-validation-for="Ttl"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="Debug"/>
+        </div>
+
+        <div class="col-md-9">
+            <input type="checkbox" id="Debug" value="true" name="Debug" @(Model.Debug ? " checked=checked" : null)/>
+
+            <span asp-validation-for="Debug"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="Flash"/>
+        </div>
+
+        <div class="col-md-9">
+            <input id="Flash"
+                   type="checkbox" value="true" name="Flash" @(Model.Flash ? " checked=checked" : null)/>
+
+            <span asp-validation-for="Flash"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="NoReload"/>
+        </div>
+
+        <div class="col-md-9">
+            <input id="NoReload"
+                   type="checkbox" value="true" name="NoReload" @(Model.NoReload ? " checked=checked" : null)/>
+
+            <span asp-validation-for="NoReload"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="PerformanceTracking"/>
+        </div>
+
+        <div class="col-md-9">
+            <input
+                @(Model.PerformanceTracking ? " checked=checked" : null)
+                id="PerformanceTracking"
+                name="PerformanceTracking"
+                type="checkbox"
+                value="true"/>
+
+            <span asp-validation-for="PerformanceTracking"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="Unicode"/>
+        </div>
+
+        <div class="col-md-9">
+            <input id="Unicode"
+                   type="checkbox" value="true" name="Unicode" @(Model.Unicode ? " checked=checked" : null)/>
+
+            <span asp-validation-for="Unicode"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="Utf8"/>
+        </div>
+
+        <div class="col-md-9">
+            <input id="Utf8"
+                   type="checkbox" value="true" name="Utf8" @(Model.Utf8 ? " checked=checked" : null)/>
+
+            <span asp-validation-for="Utf8"></span>
+        </div>
+    </div>
+}
+
 @section history
 {
-    @await Component.InvokeAsync(typeof(SmsMessageHistoryViewComponent), new AbstractMessageHistoryViewComponentData<SmsRecord> {
-        Headers = new List<string> {"Plugins.Misc.Sms77.Bulk.Response"},
-        Messages = Model.Sent,
-        RowHandler = r => new List<object> {r.Response}
-    })
+    @await Component.InvokeAsync(typeof(SmsMessageHistoryViewComponent),
+        new AbstractMessageHistoryViewComponentData<SmsRecord> {
+            Headers = new List<string> {"Plugins.Misc.Sms77.Bulk.Response"},
+            Messages = Model.Sent,
+            RowHandler = r => new List<object> {r.Response}
+        })
 }

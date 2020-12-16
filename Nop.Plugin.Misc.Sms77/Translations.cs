@@ -33,6 +33,18 @@ namespace Nop.Plugin.Misc.Sms77 {
             ["Plugins.Misc.Sms77.Message.Text.Placeholder"] =
                 "Hi {Username}. We have a store opening soon in your city {Address.City}!",
             ["Plugins.Misc.Sms77.Message.To"] = "Message Recipient",
+            
+            ["Plugins.Misc.Sms77.Sms.Debug"] = "Debug",
+            ["Plugins.Misc.Sms77.Sms.Delay"] = "Delay",
+            ["Plugins.Misc.Sms77.Sms.Flash"] = "Flash",
+            ["Plugins.Misc.Sms77.Sms.ForeignId"] = "Foreign ID",
+            ["Plugins.Misc.Sms77.Sms.Label"] = "Label",
+            ["Plugins.Misc.Sms77.Sms.NoReload"] = "No Reload",
+            ["Plugins.Misc.Sms77.Sms.PerformanceTracking"] = "Performance Tracking",
+            ["Plugins.Misc.Sms77.Sms.Ttl"] = "TTL",
+            ["Plugins.Misc.Sms77.Sms.Udh"] = "UDH",
+            ["Plugins.Misc.Sms77.Sms.Unicode"] = "Unicode",
+            ["Plugins.Misc.Sms77.Sms.Utf8"] = "UTF-8"
         };
     }
 }

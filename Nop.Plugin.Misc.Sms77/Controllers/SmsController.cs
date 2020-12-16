@@ -35,15 +35,26 @@ namespace Nop.Plugin.Misc.Sms77.Controllers {
 
         #region Methods
 
-        public override async Task<IActionResult> Bulk(SmsModel model) {
+        public override async Task<IActionResult> Bulk(SmsModel m) {
             return await Submit<SmsParams>(
-                model,
-                async (client, paras, record) => {
-                    paras.Json = true;
+                m,
+                async (client, p, record) => {
+                    p.Json = true;
+                    p.Debug = m.Debug;
+                    p.Delay = m.Delay;
+                    p.Label = m.Label;
+                    p.Flash = m.Flash;
+                    p.ForeignId = m.ForeignId;
+                    p.NoReload = m.NoReload;
+                    p.PerformanceTracking = m.PerformanceTracking;
+                    p.Ttl = m.Ttl;
+                    p.Udh = m.Udh;
+                    p.Unicode = m.Unicode;
+                    p.Utf8 = m.Utf8;
 
-                    record.Response = JsonConvert.SerializeObject(await client.Sms(paras));
+                    record.Response = JsonConvert.SerializeObject(await client.Sms(p));
 
-                    return (paras, record);
+                    return (p, record);
                 },
                 true);
         }
