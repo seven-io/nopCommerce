@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Misc",
+  "FriendlyName": "Seven",
+  "SystemName": "Misc.Seven",
+  "Version": "0.4",
+  "SupportedVersions": [ "4.30" ],
+  "Author": "seven communications GmbH & Co. KG",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Misc.Seven.dll",
+  "Description": "This plugin allows to integrate with seven.io service"
+}

@@ -1,0 +1,78 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <Copyright>Copyright © seven communications GmbH &amp; Co. KG</Copyright>
+        <Company>seven communications GmbH &amp; Co. KG</Company>
+        <Authors>seven communications GmbH &amp; Co. KG</Authors>
+        <PackageLicenseUrl></PackageLicenseUrl>
+        <PackageProjectUrl>https://www.seven.io/</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/seven-io/nopCommerce</RepositoryUrl>
+        <RepositoryType>Git</RepositoryType>
+        <OutputPath>..\..\Presentation\Nop.Web\Plugins\Misc.Seven</OutputPath>
+        <OutDir>$(OutputPath)</OutDir>
+        <!--Set this parameter to true to get the dlls copied from the NuGet cache to the output of your project. 
+        You need to set this parameter to true if your plugin has a nuget package 
+        to ensure that the dlls copied from the NuGet cache to the output of your project-->
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Remove="logo.png" />
+        <None Remove="plugin.json" />
+        <None Remove="Views\Shared\_Bulk.cshtml" />
+        <None Remove="Views\Shared\Components\MessageHistory\Default.cshtml" />
+        <None Remove="Views\Bulk\Sms.cshtml" />
+        <None Remove="Views\Bulk\Voice.cshtml" />
+        <None Remove="Views\Configure.cshtml" />
+        <None Remove="Views\_ViewImports.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="logo.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="plugin.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Views\Bulk\Sms.cshtml">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Views\Bulk\Voice.cshtml">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Views\Configure.cshtml">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Views\Shared\_Bulk.cshtml">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Views\Shared\Components\MessageHistory\Default.cshtml">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Views\_ViewImports.cshtml">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj" Watch="false" />
+        <ProjectReference Include="..\..\Presentation\Nop.Web\Nop.Web.csproj" Watch="false" />
+        <ClearPluginAssemblies Include="$(MSBuildProjectDirectory)\..\..\Build\ClearPluginAssemblies.proj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="sms77-api" Version="1.0.0" />
+    </ItemGroup>
+
+    <!-- This target execute after "Build" target -->
+    <Target Name="NopTarget" AfterTargets="Build">
+        <!-- Delete unnecessary libraries from plugins path -->
+        <MSBuild Projects="@(ClearPluginAssemblies)" Properties="PluginPath=$(MSBuildProjectDirectory)\$(OutDir)" Targets="NopClear" />
+    </Target>
+
+    <ItemGroup>
+        <!-- include Nop.Plugin.Misc.Seven and exclude default watchers -->
+        <Watch Include="**\*" Exclude="obj\**\*" />
+    </ItemGroup>
+</Project>

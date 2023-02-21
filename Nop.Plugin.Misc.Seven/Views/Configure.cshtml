@@ -1,0 +1,100 @@
+@model Nop.Plugin.Misc.Seven.SevenSettings
+
+@{
+    Layout = "_ConfigurePlugin";
+}
+
+@await Component.InvokeAsync("StoreScopeConfiguration")
+
+<form asp-controller="Seven" asp-action="Configure" method="post">
+    <nop-panels id="seven-panels">
+        <nop-panel
+            asp-advanced="false"
+            asp-hide="false"
+            asp-hide-block-attribute-name="false"
+            asp-icon="fa fa-info"
+            asp-name="seven-general"
+            asp-title="@T("Plugins.Misc.Seven.General")">
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <img
+                            alt=""
+                            class="center-block"
+                            src="@Url.Content("~/Plugins/Misc.Seven/logo.png")"/>
+                    </div>
+                    <div class="panel-body">
+                        @if (string.IsNullOrEmpty(Model.ApiKey)) {
+                            <figure>
+                                <figcaption>
+                                    <h2>@T("Plugins.Misc.Seven.General.GetApiKey")</h2>
+                                </figcaption>
+
+                                <ol>
+                                    <li>
+                                        @T("Plugins.Misc.Seven.General.CreateAccount")
+                                    </li>
+                                    <li>
+                                        <a href="https://app.seven.io/settings#httpapi" target="_blank">
+                                            @T("Plugins.Misc.Seven.General.CreateKey")
+                                        </a>
+                                    </li>
+                                    <li>
+                                        @T("Plugins.Misc.Seven.General.CopyPasteKeySave")
+                                    </li>
+                                </ol>
+                            </figure>
+                        }
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="ApiKey"/>
+                            </div>
+
+                            <div class="col-md-9">
+                                <nop-editor
+                                    asp-for="ApiKey"
+                                    asp-required="true"
+                                    placeholder="@T("Plugins.Misc.Seven.General.ApiKeyPlaceholder")"/>
+
+                                <span asp-validation-for="ApiKey"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="From"/>
+                            </div>
+
+                            <div class="col-md-9">
+                                <nop-editor asp-for="From"/>
+
+                                <span asp-validation-for="From"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-9 col-md-offset-3">
+                            <input
+                                class="btn btn-primary"
+                                name="save"
+                                type="submit"
+                                value="@T("Admin.Common.Save")"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nop-panel>
+    </nop-panels>
+</form>
+
+
+<script>
+const autofocus = '@Context.Request.Query["autofocus"].ToString()';
+
+if (autofocus.length) {
+    const ele = document.getElementById(autofocus);
+
+    if (ele) {
+        ele.focus();
+    }
+}
+</script>

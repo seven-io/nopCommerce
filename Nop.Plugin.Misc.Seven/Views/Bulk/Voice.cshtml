@@ -1,0 +1,32 @@
+@using Nop.Plugin.Misc.Seven.Domain
+@model Nop.Plugin.Misc.Seven.Models.VoiceModel 
+
+@{
+    Layout = "~/Plugins/Misc.Seven/Views/Shared/_Bulk.cshtml";
+    ViewBag.PageTitle = "Plugins.Misc.Seven.Bulk.Voice";
+}
+
+@section form
+{
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="Xml"/>
+        </div>
+
+        <div class="col-md-9">
+            <input type="checkbox" id="Xml" value="true" name="Xml" @(Model.Xml ? " checked=checked" : null)/>
+
+            <span asp-validation-for="Xml"></span>
+        </div>
+    </div>
+
+}
+
+@section history
+{
+    @await Component.InvokeAsync(typeof(VoiceMessageHistoryViewComponent), new AbstractMessageHistoryViewComponentData<VoiceRecord> {
+        Headers = new List<string> {"Plugins.Misc.Seven.Bulk.Code", "Plugins.Misc.Seven.Bulk.Cost", "Plugins.Misc.Seven.Bulk.SevenId"},
+        Messages = Model.Sent,
+        RowHandler = r => new List<object> {r.Code, r.Cost, r.SevenId}
+    })
+}
