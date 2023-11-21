@@ -40,7 +40,6 @@ namespace Nop.Plugin.Misc.Seven.Controllers {
                 m,
                 async (client, p, record) => {
                     p.Json = true;
-                    p.Debug = m.Debug;
                     p.Delay = m.Delay;
                     p.Label = m.Label;
                     p.Flash = m.Flash;

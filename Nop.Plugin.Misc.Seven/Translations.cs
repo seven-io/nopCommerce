@@ -17,7 +17,7 @@ namespace Nop.Plugin.Misc.Seven {
             ["Plugins.Misc.Seven.Bulk.Voice.Cost"] = "Cost",
             ["Plugins.Misc.Seven.Bulk.Voice.SevenId"] = "Seven-ID",
             ["Plugins.Misc.Seven.Bulk.Voice.Xml"] = "XML",
-            
+
             ["Plugins.Misc.Seven.General"] = "General",
             ["Plugins.Misc.Seven.General.ApiKey"] = "API Key",
             ["Plugins.Misc.Seven.General.ApiKeyPlaceholder"] = "My Super Secret seven.io Api Key",
@@ -33,8 +33,7 @@ namespace Nop.Plugin.Misc.Seven {
             ["Plugins.Misc.Seven.Message.Text.Placeholder"] =
                 "Hi {Username}. We have a store opening soon in your city {Address.City}!",
             ["Plugins.Misc.Seven.Message.To"] = "Message Recipient",
-            
-            ["Plugins.Misc.Seven.Sms.Debug"] = "Debug",
+
             ["Plugins.Misc.Seven.Sms.Delay"] = "Delay",
             ["Plugins.Misc.Seven.Sms.Flash"] = "Flash",
             ["Plugins.Misc.Seven.Sms.ForeignId"] = "Foreign ID",
